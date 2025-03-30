@@ -8,7 +8,7 @@ export const JobService = {
       const { data, error } = await supabase
         .from('jobs')
         .select('*')
-        .order('date_posted', { ascending: false, nullsLast: true });
+        .order('date_posted', { ascending: false });
       
       if (error) {
         console.error("Error fetching jobs:", error);
@@ -50,7 +50,7 @@ export const JobService = {
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
       
       query = query.or(`date_posted.gte.${thirtyDaysAgo.toISOString()},date_posted.is.null`)
-                   .order('date_posted', { ascending: false, nullsLast: true });
+                   .order('date_posted', { ascending: false });
       
       const { data, error } = await query;
       
