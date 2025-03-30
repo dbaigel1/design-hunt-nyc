@@ -4,6 +4,7 @@ import { Job, JobFilter } from "@/types/job";
 import { JobCard } from "@/components/JobCard";
 import { JobService } from "@/services/JobService";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useToast } from "@/components/ui/use-toast";
 
 interface JobListProps {
   filter: JobFilter;
@@ -12,19 +13,36 @@ interface JobListProps {
 export function JobList({ filter }: JobListProps) {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
 
   useEffect(() => {
-    setLoading(true);
-    // Simulate loading for better UX
-    setTimeout(() => {
-      const filteredJobs = JobService.searchJobs(
-        filter.searchTerm,
-        filter.location
-      );
-      setJobs(filteredJobs);
-      setLoading(false);
-    }, 500);
-  }, [filter.searchTerm, filter.location]);
+    async function fetchJobs() {
+      setLoading(true);
+      try {
+        const filteredJobs = await JobService.searchJobs(
+          filter.searchTerm,
+          filter.location
+        );
+        setJobs(filteredJobs);
+      } catch (error) {
+        console.error("Error fetching jobs:", error);
+        toast({
+          title: "Error",
+          description: "Failed to load job listings. Please try again later.",
+          variant: "destructive",
+        });
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    // Add a small delay for better UX
+    const timer = setTimeout(() => {
+      fetchJobs();
+    }, 300);
+    
+    return () => clearTimeout(timer);
+  }, [filter.searchTerm, filter.location, toast]);
 
   if (loading) {
     return (
