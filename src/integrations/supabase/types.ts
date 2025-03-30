@@ -56,7 +56,18 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      setup_cron_extensions: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      setup_daily_crawl_job: {
+        Args: {
+          cron_sql: string
+          project_ref: string
+          anon_key: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never

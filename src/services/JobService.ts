@@ -97,5 +97,49 @@ export const JobService = {
         message: `Failed to crawl website: ${error.message}`
       };
     }
+  },
+
+  // New function to set up the scheduled crawler
+  setupDailyCrawler: async (): Promise<{ success: boolean; message: string }> => {
+    try {
+      const response = await supabase.functions.invoke('schedule-daily-crawl');
+      
+      if (!response.data) {
+        return {
+          success: false,
+          message: "Failed to set up daily crawler. No response from server."
+        };
+      }
+      
+      return response.data as { success: boolean; message: string };
+    } catch (error) {
+      console.error("Error in setupDailyCrawler:", error);
+      return {
+        success: false,
+        message: `Failed to set up daily crawler: ${error.message}`
+      };
+    }
+  },
+
+  // New function to manually trigger the crawler for all configured websites
+  runCrawler: async (): Promise<{ success: boolean; message: string }> => {
+    try {
+      const response = await supabase.functions.invoke('daily-job-crawler');
+      
+      if (!response.data) {
+        return {
+          success: false,
+          message: "Failed to run crawler. No response from server."
+        };
+      }
+      
+      return response.data as { success: boolean; message: string };
+    } catch (error) {
+      console.error("Error in runCrawler:", error);
+      return {
+        success: false,
+        message: `Failed to run crawler: ${error.message}`
+      };
+    }
   }
 };

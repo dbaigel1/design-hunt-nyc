@@ -1,2 +1,11 @@
 
 project_id = "xfqphsfyghzucniybcga"
+
+[functions.crawl-jobs]
+verify_jwt = false
+
+[functions.daily-job-crawler]
+verify_jwt = false
+
+[functions.schedule-daily-crawl]
+verify_jwt = false
