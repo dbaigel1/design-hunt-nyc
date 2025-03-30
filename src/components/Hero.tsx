@@ -15,12 +15,9 @@ export function Hero() {
               Curated job listings for product designers in New York City, all in one place.
             </p>
           </div>
-          <div className="flex flex-col gap-2 min-[400px]:flex-row">
+          <div>
             <Button asChild size="lg">
               <a href="#jobs">Browse Jobs</a>
-            </Button>
-            <Button asChild variant="outline" size="lg">
-              <a href="#add-jobs">Add a Job Listing</a>
             </Button>
           </div>
         </div>

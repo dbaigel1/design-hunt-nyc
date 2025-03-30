@@ -76,30 +76,7 @@ export const JobService = {
     }
   },
 
-  crawlWebsite: async (url: string): Promise<{ success: boolean; message: string }> => {
-    try {
-      const response = await supabase.functions.invoke('crawl-jobs', {
-        body: { url }
-      });
-      
-      if (!response.data) {
-        return {
-          success: false,
-          message: "Failed to crawl website. No response from server."
-        };
-      }
-      
-      return response.data as { success: boolean; message: string };
-    } catch (error) {
-      console.error("Error in crawlWebsite:", error);
-      return {
-        success: false,
-        message: `Failed to crawl website: ${error.message}`
-      };
-    }
-  },
-
-  // New function to set up the scheduled crawler
+  // Function to set up the scheduled crawler
   setupDailyCrawler: async (): Promise<{ success: boolean; message: string }> => {
     try {
       const response = await supabase.functions.invoke('schedule-daily-crawl');
@@ -121,7 +98,7 @@ export const JobService = {
     }
   },
 
-  // New function to manually trigger the crawler for all configured websites
+  // Function to manually trigger the crawler for all configured websites
   runCrawler: async (): Promise<{ success: boolean; message: string }> => {
     try {
       const response = await supabase.functions.invoke('daily-job-crawler');

@@ -24,9 +24,6 @@ export function Header() {
           <Button variant="ghost" asChild>
             <a href="#jobs">Jobs</a>
           </Button>
-          <Button variant="ghost" asChild>
-            <a href="#add-jobs">Add Jobs</a>
-          </Button>
           <Button variant="outline" asChild>
             <a href="#about">About</a>
           </Button>
